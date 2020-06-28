@@ -63,7 +63,7 @@ footer {
   width: 100%;
   background: var(--secondary);
   color: var(--tertiary);
-  font-size: 2.4rem;
+  font-size: 2rem;
   padding: 20px;
   border-top: 5px solid var(--primary);
 }
