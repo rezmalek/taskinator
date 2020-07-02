@@ -89,6 +89,12 @@ footer {
   width: 95%;
 }
 
+main {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
 .task-list-wrapper {
   flex: 1;
   margin: 0 20px 20px;
@@ -195,6 +201,7 @@ footer {
   font-size: 1.4rem;
   padding: 4px 28px 4px 4px;
   width: auto;
+  margin-left: 5px;
 }
 
 .select-dropdown::-ms-expand,
@@ -228,6 +235,10 @@ footer {
 
   form .form-group button {
     width: 100%;
+  }
+
+  main {
+    flex-direction: column;
   }
 
   .task-list-wrapper {
