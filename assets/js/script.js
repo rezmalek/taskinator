@@ -104,6 +104,7 @@ function taskButtonHandler(e) {
 
 function deleteTask(taskId) {
     let selectedTask = document.querySelector(`.task-item[data-task-id = "${taskId}"]`);
+
     selectedTask.remove();
 };
 
@@ -190,7 +191,12 @@ function dragLeaveHandler(e) {
     if (taskListEl) {
         taskListEl.removeAttribute('style'); 
     }
+};
+
+function saveTasks() {
+    localStorage.setItem('tasks', tasks);
 }
+
 
 btn.addEventListener('click', taskFormHandler);
 pageContentEl.addEventListener('click', taskButtonHandler);
