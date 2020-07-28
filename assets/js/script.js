@@ -5,6 +5,7 @@ const pageContentEl = document.querySelector('.page-content');
 const tasksInProgressEl = document.querySelector('#tasks-in-progress'); 
 const tasksCompletedEl = document.querySelector('#tasks-completed');
 let taskIdCounter = 0;
+let tasks = [];
 
 function taskFormHandler(e) {
     e.preventDefault();
@@ -26,7 +27,8 @@ function taskFormHandler(e) {
     } else {
         let taskDataObj = {
             name: taskNameInput,
-            type: taskTypeInput
+            type: taskTypeInput,
+            status: 'to do'
         }
         createTaskEl(taskDataObj);
     }
@@ -49,6 +51,9 @@ function createTaskEl(taskDataObj) {
     taskItemEl.appendChild(taskInfoEl);
     taskItemEl.appendChild(taskActionsEl);
     tasksToDo.appendChild(taskItemEl);
+
+    taskDataObj.id = taskIdCounter;
+    tasks.push(taskDataObj);
 
     taskIdCounter ++;
 };
@@ -99,13 +104,23 @@ function taskButtonHandler(e) {
     } else if (targetEl.matches('.edit-btn')) {
         let taskId = targetEl.getAttribute('data-task-id');
         editTask(taskId);
-    };
+    }
 };
 
 function deleteTask(taskId) {
     let selectedTask = document.querySelector(`.task-item[data-task-id = "${taskId}"]`);
 
     selectedTask.remove();
+
+    let updatedTaskArr = [];
+
+    for (var i = 0; i < tasks.length; i++) {
+        if(tasks[i].id !== parseInt(taskId)) {
+            updatedTaskArr.push(tasks[i]);
+        }
+    }
+    
+    tasks = updatedTaskArr;
 };
 
 function editTask(taskId) {
@@ -128,6 +143,13 @@ function completeEditTask(taskName, taskType, taskId) {
     selectedTask.querySelector('h3.task-name').textContent= taskName;
     selectedTask.querySelector('span.task-type').textContent = taskType;
 
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) { 
+            tasks[i].name = taskName; 
+            tasks[i].type = taskType;
+        } 
+    }
+
     formEl.removeAttribute('data-task-id'); 
     document.querySelector('#save-task').textContent = 'Add Task';
 };
@@ -146,6 +168,12 @@ function taskStatusChangeHandler(e) {
         tasksInProgressEl.appendChild(selectedTask); 
     } else if (statusValue === "completed") { 
         tasksCompletedEl.appendChild(selectedTask);
+    }
+
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) { 
+            tasks[i].status = statusValue;
+        } 
     }
 };
 
@@ -178,11 +206,17 @@ function dropTaskHandler(e) {
         statusSelectEl.selectedIndex = 1; 
     } else if (statusType === 'tasks-completed') { 
         statusSelectEl.selectedIndex = 2;
-    };
+    }
 
     dropZoneEl.removeAttribute("style");
 
     dropZoneEl.appendChild(draggableEl);
+
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(id)) {
+        tasks[i].status = statusSelectEl.value.toLowerCase();
+        } 
+    }
 };
 
 function dragLeaveHandler(e) {
