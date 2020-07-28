@@ -55,6 +55,8 @@ function createTaskEl(taskDataObj) {
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
 
+    saveTasks();
+
     taskIdCounter ++;
 };
 
@@ -119,8 +121,10 @@ function deleteTask(taskId) {
             updatedTaskArr.push(tasks[i]);
         }
     }
-    
+
     tasks = updatedTaskArr;
+
+    saveTasks();
 };
 
 function editTask(taskId) {
@@ -150,6 +154,8 @@ function completeEditTask(taskName, taskType, taskId) {
         } 
     }
 
+    saveTasks();
+
     formEl.removeAttribute('data-task-id'); 
     document.querySelector('#save-task').textContent = 'Add Task';
 };
@@ -175,6 +181,8 @@ function taskStatusChangeHandler(e) {
             tasks[i].status = statusValue;
         } 
     }
+
+    saveTasks();
 };
 
 function dragTaskHandler(e) {
@@ -217,6 +225,8 @@ function dropTaskHandler(e) {
         tasks[i].status = statusSelectEl.value.toLowerCase();
         } 
     }
+
+    saveTasks();
 };
 
 function dragLeaveHandler(e) {
@@ -228,7 +238,7 @@ function dragLeaveHandler(e) {
 };
 
 function saveTasks() {
-    localStorage.setItem('tasks', tasks);
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // localStorage only store STRING
 }
 
 
