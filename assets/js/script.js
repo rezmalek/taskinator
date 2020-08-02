@@ -242,7 +242,7 @@ function saveTasks() {
 }
 
 
-btn.addEventListener('click', taskFormHandler);
+formEl.addEventListener('submit', taskFormHandler);
 pageContentEl.addEventListener('click', taskButtonHandler);
 pageContentEl.addEventListener('change', taskStatusChangeHandler);
 pageContentEl.addEventListener('dragstart', dragTaskHandler);
